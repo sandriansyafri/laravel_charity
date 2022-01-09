@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', fn () => redirect()->route('dashboard'));
+
 Route::get('/login', LoginController::class)->name('login');
 Route::get('/register', RegisterController::class)->name('register');
 
@@ -27,18 +29,8 @@ Route::post('/register', [RegisterController::class, 'register']);
 
 Route::post('logout', LogoutController::class)->name('logout');
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/dashboard/admin', function () {
-        return view('page.dashboard.admin');
-    })->name('dashboard.admin');
-});
-
-Route::middleware(['auth', 'role:donatur'])->group(function () {
-    Route::get('/dashboard/donatur', function () {
-        return view('page.dashboard.donatur');
-    })->name('dashboard.donatur');
+Route::middleware(['auth', 'role:admin,donatur'])->group(function () {
+    Route::get('dashboard', function () {
+        return view('page.dashboard.index');
+    })->name('dashboard');
 });

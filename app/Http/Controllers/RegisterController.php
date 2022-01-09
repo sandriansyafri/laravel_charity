@@ -37,6 +37,6 @@ class RegisterController extends Controller
 
         User::create($request->all());
 
-        return back()->with('register_status', 'success');
+        return redirect()->route('login')->with('register_status', 'success');
     }
 }
