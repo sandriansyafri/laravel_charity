@@ -16,7 +16,7 @@ class RegisterController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return view('page.auth.register');
+        return view('page.backend.auth.register');
     }
 
     private function validation()

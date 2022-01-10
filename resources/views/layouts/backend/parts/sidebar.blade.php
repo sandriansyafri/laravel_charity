@@ -21,14 +21,14 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
-                    <a href="pages/gallery.html" class="nav-link mb-0 pb-0">
+                    <a href="{{ route('dashboard') }}"  class="nav-link mb-0  {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                         <i class="nav-icon fa fa-tachometer-alt"></i>
                         <p class="mb-0">Dashboard</p>
                     </a>
                 </li>
                 <li class="nav-header">Master</li>
                 <li class="nav-item">
-                    <a href="pages/gallery.html" class="nav-link">
+                    <a href="{{ route('category.index') }}" class="nav-link {{ request()->routeIs('category.*') ? 'active' : '' }}">
                         <i class="nav-icon fa fa-cube"></i>
                         <p>Kategori</p>
                     </a>
