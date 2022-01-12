@@ -1,9 +1,5 @@
-@push('css')
-    <link rel="stylesheet" href="{{ asset('/') }}plugins/toastr/toastr.min.css">
-@endpush
-
+@include('includes.sweeatalert')
 @push('js')
-<script src="{{ asset('/') }}plugins/toastr/toastr.min.js"></script>
     @if (session('success'))
     <script>
         toastr.success("{{ session('success') }}")

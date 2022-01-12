@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
@@ -38,6 +39,7 @@ Route::middleware(['auth', 'role:admin,donatur'])->group(function () {
     Route::middleware('role:admin')->group(function () {
         Route::prefix('dashboard')->group(function () {
             Route::resource('category', CategoryController::class);
+            Route::resource('campaign', CampaignController::class)->except('create', 'edit');
         });
     });
 

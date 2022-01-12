@@ -17,7 +17,7 @@ Category
                 <a href="{{ route('category.create') }}" class="btn btn-primary">Add Category</a>
             </x-slot>
 
-            <form action="{{ route('category.index') }}" method="get" class="d-flex justify-content-between">
+            <form action="{{ route('category.index') }}" method="get" class="d-flex justify-content-between mb-3">
                 <x-table-rows-data></x-table-rows-data>
                 <x-table-find-data></x-table-find-data>
             </form>
