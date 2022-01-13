@@ -20,10 +20,10 @@ class CreateCampaignsTable extends Migration
             $table->string('title');
             $table->text('short_desc');
             $table->longText('body');
-            $table->integer('seen');
+            $table->integer('seen')->default(0);
             $table->enum('status', ['public', 'pending', 'archived'])->default('pending');
-            $table->bigInteger('nominal');
-            $table->bigInteger('goal');
+            $table->bigInteger('nominal')->default(0);
+            $table->bigInteger('goal')->default(0);
             $table->dateTime('end_date');
             $table->text('note');
             $table->string('receiver');

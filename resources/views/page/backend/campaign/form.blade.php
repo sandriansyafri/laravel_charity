@@ -40,7 +40,7 @@
                     <label for="">Status</label>
                     <select name="status" id="" class="custom-select">
                         <option value="">Pilih Salah </option>
-                        <option value="publish">Publish</option>
+                        <option value="public">Publish</option>
                         <option value="pending">Pending</option>
                         <option value="archived">Archived</option>
                     </select>
@@ -74,7 +74,7 @@
             <div class="col-md-6">
                 <label for="">Receiver / Penerima</label>
                 <div class="custom-control custom-radio">
-                    <input class="custom-control-input" type="radio" id="saya" name="receiver" value="saya" checked>
+                    <input class="custom-control-input" type="radio" id="saya" name="receiver" value="saya"  >
                     <label for="saya" class="custom-control-label font-weight-normal">Saya Sendiri</label>
                 </div>
                 <div class="custom-control custom-radio">
@@ -97,7 +97,7 @@
                     <label for="path_image">Upload Gambar</label>
                     <div class="input-group">
                         <div class="custom-file">
-                            <input onchange="previewUploadImage('.previewImage', this.files[0])" type="file" name="path_image" class="custom-file-input" id="path_image">
+                            <input onchange="previewUploadImage('.preview-path_image', this.files[0])" type="file" name="path_image" class="custom-file-input" id="path_image">
                             <label class="custom-file-label" for="path_image">Choose file</label>
                         </div>
                     </div>
@@ -107,7 +107,7 @@
 
         <div class="row">
             <div class="col-md-6">
-                <img src="" alt="" class="img-fluid previewImage">
+                <img src="" alt="" class="img-fluid preview-path_image">
             </div>
         </div>
     </div>

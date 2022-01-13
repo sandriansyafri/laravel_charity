@@ -1,7 +1,7 @@
   <!-- Modal -->
   <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true" {{ $attributes->merge() }}>
     <div class="modal-dialog {{ $modalSize ?? '' }}">
-      <form  action="" method="POST">
+      <form  action="" method="POST" enctype="multipart/form-data">
           @csrf
           <input type="hidden" name="_method" value="">
         <div class="modal-content">

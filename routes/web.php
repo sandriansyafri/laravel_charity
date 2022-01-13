@@ -39,6 +39,7 @@ Route::middleware(['auth', 'role:admin,donatur'])->group(function () {
     Route::middleware('role:admin')->group(function () {
         Route::prefix('dashboard')->group(function () {
             Route::resource('category', CategoryController::class);
+            Route::get('data/campaign', [CampaignController::class, 'data'])->name('campaign.data');
             Route::resource('campaign', CampaignController::class)->except('create', 'edit');
         });
     });
