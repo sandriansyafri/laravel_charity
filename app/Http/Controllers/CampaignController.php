@@ -36,7 +36,10 @@ class CampaignController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function ($items) {
                 return '
-                    <button onclick="editForm( `' . route('campaign.show', $items->id) . '`,`Edit Form`)"  type="button" class="btn btn-xs btn-primary">
+                <button type="button" onclick="detailItem(`' . route('campaign.detail', $items->id) . '`)" class="btn btn-primary btn-xs">
+                <i class="fa fa-eye"></i>
+                </button>
+                    <button onclick="editForm( `' . route('campaign.show', $items->id) . '`,`Edit Form`)"  type="button" class="btn btn-xs btn-warning">
                         <i class="fa fa-edit"></i>
                     </button>
                     <button onclick="deleteItem(`' . route('campaign.destroy', $items->id) . '`)" class="btn btn-xs btn-danger ">
@@ -151,6 +154,11 @@ class CampaignController extends Controller
             'message' => 'get',
             'data' => $campaign
         ]);
+    }
+
+    public function detail(Request $request, Campaign $campaign)
+    {
+        return view('page.backend.campaign.detail', compact(['campaign']));
     }
 
     /**

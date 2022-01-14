@@ -40,6 +40,7 @@ Route::middleware(['auth', 'role:admin,donatur'])->group(function () {
         Route::prefix('dashboard')->group(function () {
             Route::resource('category', CategoryController::class);
             Route::get('data/campaign', [CampaignController::class, 'data'])->name('campaign.data');
+            Route::get('campaign/{campaign:slug}/detail', [CampaignController::class, 'detail'])->name('campaign.detail');
             Route::resource('campaign', CampaignController::class)->except('create', 'edit');
         });
     });

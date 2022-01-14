@@ -10,3 +10,8 @@ function upload_image($directory, $file, $prefix_filename)
 
       return $filename;
 }
+
+function count_donatur_campaign()
+{
+      return auth()->user()->campaigns->count();
+}

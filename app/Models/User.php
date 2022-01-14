@@ -34,4 +34,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Role::class, 'id', 'role_id');
     }
+
+    public function campaigns()
+    {
+        return $this->hasMany(Campaign::class, 'user_id', 'id');
+    }
 }
