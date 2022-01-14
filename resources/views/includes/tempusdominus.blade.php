@@ -18,8 +18,8 @@
             time: "fa fa-clock",
         }
     })
-
-
-
+    $('.datepicker').datetimepicker({
+        format: 'YYYY-MM-DD',
+    })
 </script>
 @endpush

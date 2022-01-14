@@ -20,9 +20,18 @@ class CampaignController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function data()
+    public function data(Request $request)
     {
-        $items = Campaign::orderBy('updated_at', 'desc')->get();
+        $items = Campaign::orderBy('updated_at', 'desc')
+            ->when($request->has('status') && $request->status !== null, function ($items) use ($request) {
+                $items->where('status', $request->status);
+            })
+            ->when(
+                ($request->has('publish_date') && $request->publish_date !== null) &&  ($request->has('end_date') && $request->end_date !== null),
+                function ($items) use ($request) {
+                    $items->whereBetween('publish_date', $request->only('publish_date', 'end_date'));
+                }
+            );
         return DataTables::of($items)
             ->addIndexColumn()
             ->addColumn('action', function ($items) {
@@ -39,16 +48,26 @@ class CampaignController extends Controller
                 return '<img class="img-fluid" src="' . asset('images/campaign/' . $items->path_image) . '" />';
             })
             ->editColumn('publish_date', function ($items) {
-                return '<small class="lead">' . date('d F Y', strtotime($items->publish_date)) . '</small>';
+                return '<small class="">' . date('d F Y', strtotime($items->publish_date)) . '</small>';
             })
             ->editColumn('short_desc', function ($items) {
-                return '<small class="lead">' . $items->short_desc . '</small>';
+                return '<small class="">' . $items->short_desc . '</small>';
             })
             ->editColumn('status', function ($items) {
-                return '<small class="lead">' . $items->status . '</small>';
+                if ($items->status === 'public') {
+                    return '<small class="badge badge-primary p-2 rounded-sm text-uppercase">' . $items->status . '</small>';
+                }
+                if ($items->status === 'pending') {
+                    return '<small class="badge badge-warning p-2 rounded-sm text-uppercase">
+                        <i class="fa fa-spinner mr-2"></i> ' . $items->status . '
+                    </small>';
+                }
+                if ($items->status === 'archived') {
+                    return '<small class="badge badge-success p-2 rounded-sm text-uppercase">' . $items->status . '</small>';
+                }
             })
             ->editColumn('author.name', function ($items) {
-                return '<small class="lead">' . $items->author->name . '</small>';
+                return '<small class="">' . $items->author->name . '</small>';
             })
             ->rawColumns(['action', 'path_image', 'publish_date', 'status', 'author.name', 'short_desc'])
             ->make();

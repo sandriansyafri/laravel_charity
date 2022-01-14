@@ -1,5 +1,16 @@
 @extends('layouts.backend.main')
 
+@push('css')
+    <style>
+
+        .note-editor.is-invalid{
+            margin-bottom: 0 !important;
+            border: 1px solid red !important;
+        }
+     
+    </style>
+@endpush
+
 @section('title')
 Campaign
 @endsection
@@ -8,6 +19,7 @@ Campaign
 @parent
 <li class="breadcrumb-item active">Campaign</li>
 @endsection
+
 
 @include('includes/datatable')
 @include('includes/select2')
@@ -18,7 +30,50 @@ Campaign
 @section('content')
 <x-card>
     <x-slot name="header">
-        <button onclick="addForm(`{{ route('campaign.store') }}`,'Add Campaign')" type="button" class="btn btn-primary">Add Campaigns</button>
+
+        <div class="row align-items-center">
+            <div class="col-md-4">
+                <button onclick="addForm(`{{ route('campaign.store') }}`,'Add Campaign')" type="button" class="btn btn-primary">Add Campaigns</button>
+            </div>
+            <div class="col">
+                <div class="row justify-content-between align-items-center">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="">Status</label>
+                            <select name="filter_status" class="custom-select">
+                                <option value="">Select </option>
+                                <option value="public">Publish</option>
+                                <option value="pending">Pending</option>
+                                <option value="archived">Archived</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-9 d-flex" style="column-gap: 20px">
+                        <div class="form-group">
+                            <label>Publish Date</label>
+                            <div class="input-group datepicker" id="filter_publishDate" data-target-input="nearest">
+                                <input  type="text" class="form-control datetimepicker-input" data-target="#filter_publishDate" name="filter_publishDate" />
+                                <div class="input-group-append" data-target="#filter_publishDate" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>End Date</label>
+                            <div class="input-group datepicker" id="filter_endDate" data-target-input="nearest">
+                                <input  type="text" class="form-control datetimepicker-input" name="filter_endDate" data-target="#filter_endDate" />
+                                <div class="input-group-append" data-target="#filter_endDate" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
     </x-slot>
     <x-table>
         <x-slot name="thead">
@@ -47,7 +102,14 @@ Campaign
     table = $('table.table').DataTable({
         processing: true,
         autoWidth: false,
-        ajax: "{{ route('campaign.data') }}",
+        ajax: {
+            url: "{{ route('campaign.data') }}",
+            data: function (d) {
+                d.status = $(`[name=filter_status]`).val();
+                d.publish_date = $(`[name=filter_publishDate]`).val();
+                d.end_date = $(`[name=filter_endDate]`).val();
+            }
+        },
         columns: [{
                 data: 'DT_RowIndex',
                 searchable: false,
@@ -86,9 +148,16 @@ Campaign
                 searchable: false,
                 orderable: false
             },
-        ]
+        ],
     })
 
+    $('[name=filter_status]').change(function () {
+        table.ajax.reload();
+    })
+
+    $('.datepicker').on('change.datetimepicker',function(){
+        table.ajax.reload();
+    })
     $('.custom-file-input').change(function () {
         const filename = $(this).val().split('\\').pop();
         $(this)
@@ -101,9 +170,10 @@ Campaign
         $(modal).modal(value);
     }
 
-    function resetForm(form){
+    function resetForm(form) {
         $(form)[0].reset();
         $('select.select2').val('').trigger('change')
+        $('.preview-path_image').attr('src','')
     }
 
     function addForm(url, title = 'Form') {
@@ -119,8 +189,8 @@ Campaign
 
     function loadForm(fields) {
         for (field in fields) {
-            if($(`[name=${field}]`).attr('type') == 'radio'){
-                $(`[name=${field}][value='${fields[field]}']`).prop('checked',true)
+            if ($(`[name=${field}]`).attr('type') == 'radio') {
+                $(`[name=${field}][value='${fields[field]}']`).prop('checked', true)
             }
             if ($(`[name=${field}]`).attr('type') !== 'file') {
                 if ($(`[name=${field}]`).hasClass('summernote')) {
@@ -131,7 +201,7 @@ Campaign
             if ($(`[name=${field}]`).attr('type') === 'file') {
                 $(`.preview-${field}`).attr('src', `{{ asset('images/campaign/${fields[field]}') }}`)
             }
-           
+
         }
     }
 
@@ -149,26 +219,26 @@ Campaign
                     loadForm(res.data);
                     let category_id = [];
                     res.data.campaign_category.forEach((item) => {
-                       category_id.push(item.pivot.category_id)
+                        category_id.push(item.pivot.category_id)
                     })
                     $('select.select2').val(category_id).trigger('change')
                 }
             })
     }
 
-    function deleteItem(url){
-        if(confirm('delete')){
+    function deleteItem(url) {
+        if (confirm('delete')) {
             $.post({
-                url,
-                type : 'DELETE',
-            })
-            .done((res) => {
-               if(res.ok){
-                table.ajax.reload();
-                toastr.success(res.message)
-               }
-            })
-            .fail((e) => console.log(e))
+                    url,
+                    type: 'DELETE',
+                })
+                .done((res) => {
+                    if (res.ok) {
+                        table.ajax.reload();
+                        toastr.success(res.message)
+                    }
+                })
+                .fail((e) => console.log(e))
         }
     }
 
@@ -192,14 +262,14 @@ Campaign
                     toastr.success(res.message);
                     table.ajax.reload();
                     toggleModal('hide');
-                } 
+                }
             })
             .fail(({
                 responseJSON
             }) => {
 
                 if (!responseJSON.ok) {
-                      showAlert(responseJSON.status, responseJSON.message);
+                    showAlert(responseJSON.status, responseJSON.message);
                     loopErrors(responseJSON.errors);
 
                 }
@@ -213,15 +283,16 @@ Campaign
 
         for (let error in errors) {
             $(`[name=${error}]`).addClass('is-invalid');
-
             if ($(`[name*=${error}]`).hasClass('select2')) {
                 $(`[name*=${error}]`).addClass('is-invalid');
                 $(`<span class="error invalid-feedback">${errors[error][0]}</span>`)
                     .insertAfter($(`[name*=${error}]`).next());
             } else if ($(`[name=${error}]`).hasClass('summernote')) {
+                $('.note-editor').addClass('is-invalid');
                 $(`<span class="error invalid-feedback">${errors[error][0]}</span>`)
                     .insertAfter($(`[name=${error}]`).next());
-            } else if ($(`[name=${error}]`).hasClass('custom-control-input')) {
+            } 
+            else if ($(`[name=${error}]`).hasClass('custom-control-input')) {
                 $(`<span class="error invalid-feedback">${errors[error][0]}</span>`)
                     .insertAfter($(`[name=${error}]`).next());
             } else if ($(`[name=${error}]`).hasClass('datetimepicker-input')) {

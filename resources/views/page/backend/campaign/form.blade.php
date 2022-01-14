@@ -36,10 +36,10 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div>
+                <div class="form-group">
                     <label for="">Status</label>
                     <select name="status" id="" class="custom-select">
-                        <option value="">Pilih Salah </option>
+                        <option value="">Pilih Salah Statu </option>
                         <option value="public">Publish</option>
                         <option value="pending">Pending</option>
                         <option value="archived">Archived</option>
