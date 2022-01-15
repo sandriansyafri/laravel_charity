@@ -36,7 +36,7 @@ class CampaignController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function ($items) {
                 return '
-                <button type="button" onclick="detailItem(`' . route('campaign.detail', $items->id) . '`)" class="btn btn-primary btn-xs">
+                <button type="button" onclick="detailItem(`' . route('campaign.detail', $items->slug) . '`)" class="btn btn-primary btn-xs">
                 <i class="fa fa-eye"></i>
                 </button>
                     <button onclick="editForm( `' . route('campaign.show', $items->id) . '`,`Edit Form`)"  type="button" class="btn btn-xs btn-warning">

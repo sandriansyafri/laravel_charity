@@ -158,13 +158,6 @@ Campaign
     $('.datepicker').on('change.datetimepicker',function(){
         table.ajax.reload();
     })
-    $('.custom-file-input').change(function () {
-        const filename = $(this).val().split('\\').pop();
-        $(this)
-            .next('.custom-file-label')
-            .addClass('selected')
-            .html(filename)
-    })
 
     function toggleModal(value) {
         $(modal).modal(value);
@@ -202,6 +195,12 @@ Campaign
                 $(`.preview-${field}`).attr('src', `{{ asset('images/campaign/${fields[field]}') }}`)
             }
 
+        }
+    }
+
+    function detailItem(url){
+        if(confirm('detail?')){
+            window.location.href = url;
         }
     }
 
@@ -315,9 +314,18 @@ Campaign
             toastr.error(message)
         }
     }
-
     function previewUploadImage(target, file) {
+        let filename = file.name;
+        $('.custom-file-label').html(`<span class="text-sm">${filename}</span>`)
         $(target).attr('src', window.URL.createObjectURL(file))
     }
+    // $('.custom-file-input').change(function () {
+    //     const filename = $(this).val().split('\\').pop();
+    //     $(this)
+    //         .next('.custom-file-label')
+    //         .addClass('selected')
+    //         .html(filename)
+    // })
+
 </script>
 @endpush

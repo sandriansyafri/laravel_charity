@@ -13,7 +13,7 @@
 <script>
     $('.select2').select2({
         theme : 'bootstrap4',
-        placeholder: 'Pilih Category',
+        placeholder: 'Select',
         allowClear: true,
         closeOnSelect: true,
     })

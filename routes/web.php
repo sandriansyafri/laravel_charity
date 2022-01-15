@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\ProfileUserController;
 use App\Http\Controllers\RegisterController;
 use App\Models\Role;
 use App\Models\User;
@@ -35,6 +36,12 @@ Route::post('logout', LogoutController::class)->name('logout');
 Route::middleware(['auth', 'role:admin,donatur'])->group(function () {
 
     Route::get('dashboard', DashboardController::class)->name('dashboard');
+
+    Route::prefix('dashboard')->group(function () {
+        Route::get('user/{user:username}/profile', [ProfileUserController::class, 'create'])->name('user.profile');
+        Route::put('user/{user:username}/profile', [ProfileUserController::class, 'update_profile']);
+        Route::put('user/{user:username}/settings', [ProfileUserController::class, 'update_password'])->name('user.settings');
+    });
 
     Route::middleware('role:admin')->group(function () {
         Route::prefix('dashboard')->group(function () {

@@ -21,7 +21,7 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
-                    <a href="{{ route('dashboard') }}"  class="nav-link mb-0  {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                    <a href="{{ route('dashboard') }}" class="nav-link mb-0  {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                         <i class="nav-icon fa fa-tachometer-alt"></i>
                         <p class="mb-0">Dashboard</p>
                     </a>
@@ -52,30 +52,30 @@
                         <p>Daftar Donasi</p>
                     </a>
                 </li>
-              @can('admin')
-              <li class="nav-header">Informasi</li>
-              <li class="nav-item">
-                  <a href="pages/gallery.html" class="nav-link">
-                      <i class="nav-icon fa fa-envelope"></i>
-                      <p>Kontak Masuk</p>
-                  </a>
-              </li>
-              <li class="nav-item">
-                  <a href="pages/gallery.html" class="nav-link">
-                      <i class="nav-icon fa fa-user-plus"></i>
-                      <p>Subscribers</p>
-                  </a>
-              </li>
-              @endcan
-               @can('donatur')
-               <li class="nav-header">Log</li>
-               <li class="nav-item">
-                   <a href="pages/gallery.html" class="nav-link">
-                       <i class="nav-icon fa fa-info-circle"></i>
-                       <p>Log Aktivitas</p>
-                   </a>
-               </li>
-               @endcan
+                @can('admin')
+                <li class="nav-header">Informasi</li>
+                <li class="nav-item">
+                    <a href="pages/gallery.html" class="nav-link">
+                        <i class="nav-icon fa fa-envelope"></i>
+                        <p>Kontak Masuk</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="pages/gallery.html" class="nav-link">
+                        <i class="nav-icon fa fa-user-plus"></i>
+                        <p>Subscribers</p>
+                    </a>
+                </li>
+                @endcan
+                @can('donatur')
+                <li class="nav-header">Log</li>
+                <li class="nav-item">
+                    <a href="pages/gallery.html" class="nav-link">
+                        <i class="nav-icon fa fa-info-circle"></i>
+                        <p>Log Aktivitas</p>
+                    </a>
+                </li>
+                @endcan
                 <li class="nav-header">Report</li>
                 <li class="nav-item">
                     <a href="pages/gallery.html" class="nav-link">
@@ -88,6 +88,12 @@
                     <a href="pages/gallery.html" class="nav-link">
                         <i class="nav-icon fa fa-cog"></i>
                         <p>Pengaturan</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('user.profile',auth()->user()->username) }}" class="nav-link">
+                        <i class="nav-icon fa fa-user"></i>
+                        <p>Profile</p>
                     </a>
                 </li>
             </ul>
